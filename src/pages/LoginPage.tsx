@@ -88,4 +88,6 @@ const LoginPage = (props: WithInjectedAuth) => {
   );
 };
 
-export default WithAuth(LoginPage);
+const Page = WithAuth(LoginPage)
+
+export default Page;
