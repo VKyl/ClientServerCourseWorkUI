@@ -1,11 +1,10 @@
 import React from 'react';
 
 const gradientStyle: React.CSSProperties = {
-  height: '100%',
-  width: '100%',
   background: 'linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899)',
   display: 'flex',
   padding: "15px",
+  borderRadius: "10px",
   alignItems: 'center',
   justifyContent: 'center',
   color: '#ffffff',
@@ -14,10 +13,10 @@ const gradientStyle: React.CSSProperties = {
   fontFamily: 'sans-serif',
 };
 
-const Fallback: React.FC = () => {
+const Fallback = (props: {altText?: string}) => {
   return (
     <div style={gradientStyle}>
-      Loading...
+      {props.altText ?? "Loading..."}
     </div>
   );
 };
