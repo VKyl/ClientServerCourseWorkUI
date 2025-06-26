@@ -21,10 +21,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     useEffect(() => {
         if (token) {
-            localStorage.setItem('AUTH_STORAGE_KEY', token);
+            localStorage.setItem(AUTH_STORAGE_KEY, token);
             apiClient.defaults.headers.common['Token'] = token;
         } else {
-            localStorage.removeItem('AUTH_STORAGE_KEY');
+            localStorage.removeItem(AUTH_STORAGE_KEY);
             delete apiClient.defaults.headers.common['Token'];
         }
     }, [token]);

@@ -5,11 +5,13 @@ import LoginPage from "./pages/LoginPage.tsx";
 import {AuthProvider} from "./utils/context/WithAuth.tsx";
 import RegisterPage from "./pages/RegisterPage.tsx";
 import DashboardPage from "./pages/DashboardPage.tsx";
+import Header from "./utils/components/Header.tsx";
 
 function App() {
 
   return (
     <AuthProvider>
+        <Header />
         <BrowserRouter>
             <Routes>
                 <Route path="/login" element={<LoginPage />} />
