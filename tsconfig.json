@@ -1,0 +1,16 @@
+{
+   "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "Node",
+    "types": ["cypress"],
+    "allowJs": true,
+    "esModuleInterop": true
+  },
+  "include": ["cypress.config.ts", "cypress/**/*"],
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
