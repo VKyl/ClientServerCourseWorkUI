@@ -1,4 +1,4 @@
-import {Box, Button, Divider, Typography} from '@mui/material';
+import {Box, Button, Divider, Snackbar, Typography} from '@mui/material';
 import Accounts from "../utils/components/dashboard/Accounts.tsx";
 import {useCallback, useEffect, useState} from "react";
 import {
@@ -27,18 +27,20 @@ const Dashboard = () => {
       selectedAccount,
       selectAccount
   ] = useState<number | null>(null);
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleCreateAsset = (newAsset: NewAsset) => {
-    console.log('New asset created:', newAsset);
     if (newAsset.name && newAsset.sector && newAsset.ticker && newAsset.currentPrice && newAsset.description) {
       createAsset(newAsset).then((resp) => {
         if (resp.success) {
-            console.log("Cool", newAsset)
-            setAssets([{id: resp.data.id, ...newAsset}, ...assets])
+            setAssets([{id: resp.data.id, ...newAsset}, ...assets]);
+            return;
         }
-        else console.log(resp.error);
+        setIsSnackbarOpen(true);
+      }).catch(() => {
+        setIsSnackbarOpen(true);
       });
     }
   };
@@ -107,6 +109,12 @@ const Dashboard = () => {
         <Divider sx={{marginY: "25px"}}/>
         <AssetList onTransaction={onTransaction} assets={assets} accountId={selectedAccount ?? 0} />
       </Box>
+      <Snackbar
+        open={isSnackbarOpen}
+        autoHideDuration={6000}
+        message="Incorrect asset data!"
+        onClose={() => setIsSnackbarOpen(false)}
+      />
       <CreateAssetModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}

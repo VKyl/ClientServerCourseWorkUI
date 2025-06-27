@@ -8,7 +8,7 @@ import {
   Button,
   Grid,
 } from '@mui/material';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 
 type TransactionType = 'BUY' | 'SELL';
 
@@ -63,10 +63,26 @@ const TransactionModal = ({
     }));
   };
 
-  const handleSubmit = () => {
+  const clearForm = useCallback(() => {
+    setFormData({
+      accountId,
+      assetId,
+      type: 'BUY',
+      quantity: 0,
+      pricePerUnit: 0,
+      transactionDate: new Date().toISOString().slice(0, 16),
+      commission: 0,
+    });
+  }, [accountId, assetId]);
+
+  const handleSubmit = useCallback((() => {
+    if (formData.quantity === 0) {
+      return;
+    }
     onSubmit(formData);
+    clearForm();
     onClose();
-  };
+  }), [clearForm, formData, onSubmit, onClose]);
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
@@ -130,7 +146,10 @@ const TransactionModal = ({
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={() => {
+          clearForm();
+          onClose();
+        }}>Cancel</Button>
         <Button variant="contained" onClick={handleSubmit}>
           Submit
         </Button>

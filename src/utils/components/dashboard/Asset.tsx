@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography, Box, Button } from '@mui/material';
+import {Card, CardContent, Typography, Box, Button, Snackbar} from '@mui/material';
 import { useState } from 'react';
 import {type Asset, createTransaction, type Transaction} from '../../../api/investPortfolio.ts';
 import TransactionModal from "./TransactionModal.tsx";
@@ -11,12 +11,16 @@ type AssetCardProps = {
 
 const AssetCard = ({ asset, accountId, onTransaction }: AssetCardProps) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   const onSubmit = (transaction: Transaction) => {
     createTransaction(transaction).then((resp) => {
       if (resp.success) {
         onTransaction();
-        console.log("SFD", resp.data);
+        return;
       }
+      setIsSnackbarOpen(true);
+    }).catch(() => {
+      setIsSnackbarOpen(true);
     })
   }
   return (
@@ -48,7 +52,12 @@ const AssetCard = ({ asset, accountId, onTransaction }: AssetCardProps) => {
           </Typography>
         </CardContent>
       </Card>
-
+      <Snackbar
+        open={isSnackbarOpen}
+        autoHideDuration={6000}
+        message="Incorrect transaction data! (check if any Account is selected)"
+        onClose={() => setIsSnackbarOpen(false)}
+      />
       <TransactionModal
           open={modalOpen}
           onSubmit={(transaction) => onSubmit(transaction as unknown as Transaction)}
