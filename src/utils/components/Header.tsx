@@ -1,7 +1,8 @@
-import { AppBar, Toolbar, Typography, Box } from '@mui/material';
+import {AppBar, Toolbar, Typography, Box, Button} from '@mui/material';
 import Logo from "./../../assets/img.png";
+import WithAuth, {type WithInjectedAuth} from "../context/WithAuth.tsx";
 
-const Header = () => {
+const Header = (props: WithInjectedAuth) => {
   return (
     <AppBar position="static" color="secondary" elevation={2}>
       <Toolbar>
@@ -11,11 +12,13 @@ const Header = () => {
             InvestFolio
           </Typography>
         </Box>
-        {/* Optional: Add buttons or links here */}
-        {/* <Button color="inherit">Login</Button> */}
+        <Button variant="contained" onClick={() => props.isAuthenticated ? props.logout() : void 0}>
+          {props.isAuthenticated ? "Logout" : "Login"}
+        </Button>
       </Toolbar>
     </AppBar>
   );
 };
 
-export default Header;
+const HeaderComponent = WithAuth(Header);
+export default HeaderComponent;
