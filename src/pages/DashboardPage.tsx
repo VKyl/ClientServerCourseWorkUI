@@ -84,6 +84,7 @@ const Dashboard = () => {
       <Accounts accounts={accounts} addAccount={addAccount} selectAccount={(id) => {
         console.log(id);
         selectAccount(id);
+        console.log(selectedAccount)
       }}/>
 
       <Box

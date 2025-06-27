@@ -8,7 +8,7 @@ import {
   Button,
   Grid,
 } from '@mui/material';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 
 type TransactionType = 'BUY' | 'SELL';
 
@@ -46,6 +46,15 @@ const TransactionModal = ({
     transactionDate: new Date().toISOString().slice(0, 16),
     commission: 0,
   });
+
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      accountId,
+      assetId,
+    }));
+  }, [accountId, assetId]);
+
 
   const handleChange = (field: keyof TransactionFormData, value: string | number) => {
     setFormData((prev) => ({
