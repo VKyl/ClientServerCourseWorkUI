@@ -3,7 +3,7 @@ import Accounts from "../utils/components/dashboard/Accounts.tsx";
 import {useCallback, useEffect, useState} from "react";
 import {
     type Account, type Asset,
-    createAccount, createAsset,
+    createAccount, createAsset, deleteAccount,
     getAccounts, getAssets,
     getPortfolioSummary,
     type PortfolioSummaryProps
@@ -74,6 +74,13 @@ const Dashboard = () => {
           }
       });
   }
+
+  const deleteAccount_ = (id: number) => {
+      deleteAccount(id).then((response) => {
+          if (response.success && response.data)
+              setAccounts((accs) => accs.filter((acc) => acc.id !== id));
+      });
+  }
   return (
     <Box
       sx={{
@@ -83,11 +90,14 @@ const Dashboard = () => {
         overflow: 'hidden',
       }}
     >
-      <Accounts accounts={accounts} addAccount={addAccount} selectAccount={(id) => {
-        console.log(id);
-        selectAccount(id);
-        console.log(selectedAccount)
-      }}/>
+      <Accounts accounts={accounts} addAccount={addAccount}
+        selectAccount={(id) => {
+            console.log(id);
+            selectAccount(id);
+            console.log(selectedAccount)
+        }}
+        deleteAccount={deleteAccount_}
+      />
 
       <Box
         sx={{

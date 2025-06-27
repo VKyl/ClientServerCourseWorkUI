@@ -38,6 +38,17 @@ export const createAccount = async (accountData: Account) => {
     }
 };
 
+export const deleteAccount = async (accId: number) => {
+    try {
+        const response = await apiClient.delete(`/api/accounts/${accId}`);
+        return {success: true, data: response.data};
+    } catch (error) {
+        console.error('Failed to create account:', error);
+        return {success: false, error};
+    }
+};
+
+
 export const getAssets = async () => {
     try {
         const response = await apiClient.get('/api/assets');

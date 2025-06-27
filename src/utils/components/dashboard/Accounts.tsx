@@ -3,11 +3,10 @@ import {
   Box,
   Button,
   List,
-  ListItemText,
   Typography,
-  ListItemButton,
 } from '@mui/material';
 import CreateAccountModal from "./AccountsModal.tsx";
+import AccountListItem from "./AccountListItem.tsx";
 
 type Account = {
   id?: number;
@@ -20,15 +19,20 @@ type AccountsProps = {
   accounts: Account[];
   addAccount: (account: Account) => void;
   selectAccount: (accountId: number) => void;
+  deleteAccount: (accountId: number) => void;
 };
 
-const Accounts = ({ accounts, addAccount, selectAccount }: AccountsProps) => {
+const Accounts = ({ accounts, addAccount, selectAccount, deleteAccount }: AccountsProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const handleSelect = (id: number, index: number) => {
     setSelectedIndex(index);
     selectAccount(id);
+  };
+
+  const handleDelete = (id: number) => {
+      deleteAccount(id);
   };
 
   return (
@@ -66,21 +70,15 @@ const Accounts = ({ accounts, addAccount, selectAccount }: AccountsProps) => {
         ) : (
           <List>
             {accounts.map((acc, index) => (
-              <ListItemButton
-                key={index}
-                selected={selectedIndex === index}
-                onClick={() => handleSelect(acc.id ?? 0, index)}
-              >
-                <ListItemText
-                  slotProps={{
-                    primary: {
-                      color: "primary"
-                    }
-                  }}
-                  primary={acc.name}
-                  secondary={`${acc.description || 'No description'} — ${acc.currency}`}
-                />
-              </ListItemButton>
+              <AccountListItem
+                  {...acc}
+                  id={acc.id ?? 0}
+                  key={index}
+                  index={selectedIndex ?? 0}
+                  onSelect={handleSelect}
+                  onDelete={handleDelete}
+                  selected={index === selectedIndex}
+              />
             ))}
           </List>
         )}
