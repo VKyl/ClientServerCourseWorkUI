@@ -1,5 +1,3 @@
-// PortfolioSummary.tsx
-
 import {
   Card,
   CardContent,
@@ -10,6 +8,7 @@ import {
   ListItemText,
   Divider,
 } from '@mui/material';
+import AssetsPieChart from "./AssetsPieChart.tsx";
 
 type AssetPosition = {
   assetId: number;
@@ -62,16 +61,7 @@ const PortfolioSummary = ({
 
         <Divider sx={{ my: 2 }} />
 
-        <Typography variant="h6" gutterBottom>
-          Assets by Sector
-        </Typography>
-        <List dense>
-          {Object.entries(assetsBySector).map(([sector, value]) => (
-            <ListItem key={sector} disablePadding>
-              <ListItemText primary={sector} secondary={`$${value.toLocaleString()}`} />
-            </ListItem>
-          ))}
-        </List>
+        <AssetsPieChart assetsBySector={assetsBySector} />
 
         <Divider sx={{ my: 2 }} />
 
